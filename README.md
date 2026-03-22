@@ -51,6 +51,7 @@ LA-FABRICAはサッカー業界の3つの革新的なサービスを構築して
 | サッカーメディア | [MEDIA.md](./docs/MEDIA.md) | [進捗追跡](https://github.com/kentofc12/LA-FABRICA-/issues?q=label:media) |
 | IDP | [IDP.md](./docs/IDP.md) | [進捗追跡](https://github.com/kentofc12/LA-FABRICA-/issues?q=label:idp) |
 | IDC | [IDC.md](./docs/IDC.md) | [進捗追跡](https://github.com/kentofc12/LA-FABRICA-/issues?q=label:idc) |
+| 収益戦略 | [BUDGET_EARNING_STRATEGY.md](./docs/BUDGET_EARNING_STRATEGY.md) | 30日間収益計画 |
 
 ---
 
