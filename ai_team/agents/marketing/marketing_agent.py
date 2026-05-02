@@ -151,7 +151,8 @@ class MarketingAgent(BaseAgent):
 - 費用対効果を感じさせる（「方向性の間違った練習に何年費やすか」）
 """
         result = self.think(prompt)
-        self.save_output(result, "marketing", f"ad_copy_{platform[:15]}_{objective[:15]}.md")
+        safe = lambda s: "".join(c if c.isalnum() or c in "_ -" else "_" for c in s)
+        self.save_output(result, "marketing", f"ad_copy_{safe(platform)[:15]}_{safe(objective)[:15]}.md")
         return result
 
     def write_referral_program(self) -> str:
