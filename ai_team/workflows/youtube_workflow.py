@@ -54,7 +54,7 @@ def run_youtube_workflow(
 
     # 企画書から各動画の台本を作成
     for i in range(videos_per_week):
-        topic_title = f"動画{i+1}"
+        topic_title = additional_context if additional_context and i == 0 else f"動画{i+1}"
         script = script_agent.write_script(plans, topic_title)
         scripts.append(script)
 

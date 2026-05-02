@@ -98,7 +98,24 @@ class ScriptAgent(BaseAgent):
 - テロップ挿入ポイント（【テロップ:○○】）を台本内に明示する
 """
         result = self.think(prompt)
-        safe_title = "".join(c for c in topic_title if c.isalnum() or c in " _-")[:40]
+
+        # 【動画タイトル】行からタイトルを抽出してファイル名に使う
+        filename_title = topic_title
+        for line in result.splitlines():
+            if line.startswith("【動画タイトル】"):
+                extracted = line.replace("【動画タイトル】", "").strip()
+                if extracted:
+                    filename_title = extracted
+                    break
+            elif "【動画タイトル】" in line:
+                parts = line.split("【動画タイトル】")
+                if len(parts) > 1 and parts[1].strip():
+                    filename_title = parts[1].strip()
+                    break
+
+        safe_title = "".join(c for c in filename_title if c.isalnum() or c in " _-ぁ-んァ-ン一-龥")[:40]
+        if not safe_title:
+            safe_title = topic_title
         self.save_output(result, "scripts", f"script_{safe_title}.md")
         return result
 
@@ -117,6 +134,8 @@ class ScriptAgent(BaseAgent):
 - 縦型動画（9:16）を想定した構成
 """
         result = self.think(prompt)
-        safe_title = "".join(c for c in topic_title if c.isalnum() or c in " _-")[:40]
+        safe_title = "".join(c for c in topic_title if c.isalnum() or c in " _-ぁ-んァ-ン一-龥")[:40]
+        if not safe_title:
+            safe_title = "shorts"
         self.save_output(result, "scripts", f"shorts_{safe_title}.md")
         return result
