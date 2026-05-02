@@ -1,9 +1,40 @@
 import anthropic
-import json
+import os
+import sys
 from datetime import datetime
 from pathlib import Path
 
 MODEL = "claude-sonnet-4-6"
+
+# .env ファイルがあれば読み込む
+_env_file = Path(__file__).parent.parent.parent / ".env"
+if _env_file.exists():
+    for line in _env_file.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
+def _make_client() -> anthropic.Anthropic:
+    # 1. 明示的なAPIキー（.env or 環境変数）
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if api_key:
+        return anthropic.Anthropic(api_key=api_key)
+
+    # 2. Claude Code環境のセッショントークン
+    token_file = os.environ.get(
+        "CLAUDE_SESSION_INGRESS_TOKEN_FILE",
+        "/home/claude/.claude/remote/.session_ingress_token",
+    )
+    if Path(token_file).exists():
+        token = Path(token_file).read_text().strip()
+        return anthropic.Anthropic(auth_token=token)
+
+    # 3. どちらもなければガイドを出して終了
+    print("\n❌ APIキーが見つかりません。")
+    print("プロジェクトルートに .env ファイルを作成してください:")
+    print("  ANTHROPIC_API_KEY=sk-ant-xxxxxxxxx")
+    sys.exit(1)
 
 
 class BaseAgent:
@@ -13,7 +44,7 @@ class BaseAgent:
         self.name = name
         self.role = role
         self.system_prompt = system_prompt
-        self.client = anthropic.Anthropic()
+        self.client = _make_client()
         self.output_dir = Path(__file__).parent.parent / "output"
 
     def think(self, user_message: str, context: dict | None = None) -> str:
