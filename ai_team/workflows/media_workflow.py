@@ -3,6 +3,7 @@
 リサーチ → 編集（記事執筆） → SEO最適化 → CTA最適化 の自動フロー
 """
 
+import os
 from ai_team.agents.research.domestic import DomesticResearchAgent
 from ai_team.agents.research.international import InternationalResearchAgent
 from ai_team.agents.media.editorial import EditorialAgent
@@ -14,6 +15,7 @@ def run_media_workflow(
     articles_per_week: int = 2,
     additional_context: str = "",
     existing_research: dict | None = None,
+    post_to_wordpress: bool = True,
 ) -> dict:
     """
     メディア記事週次生産ワークフローを実行する。
@@ -94,11 +96,19 @@ def run_media_workflow(
         # CTA最適化
         cta_result = funnel_agent.optimize_cta(article, config["type"])
 
+        # WordPress 下書き保存
+        wp_result = None
+        if post_to_wordpress and os.environ.get("WP_USER") and os.environ.get("WP_APP_PASSWORD"):
+            from ai_team.utils.wordpress import post_as_draft
+            print(f"  📤 WordPress下書き保存中...")
+            wp_result = post_as_draft(article)
+
         articles.append({
             "type": config["type"],
             "article": article,
             "seo": seo_result,
             "cta": cta_result,
+            "wordpress": wp_result,
         })
 
     outputs["articles"] = articles
