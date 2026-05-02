@@ -1,6 +1,9 @@
-from ai_team.agents.base import BaseAgent
+from ai_team.agents.base import BaseAgent, LA_FABRICA_CONTEXT
 
-SYSTEM_PROMPT = """あなたはLA-FABRICAのメディア事業部署の編集担当AIエージェントです。
+SYSTEM_PROMPT = f"""あなたはLA-FABRICAのメディア事業部署の編集担当AIエージェントです。
+
+{LA_FABRICA_CONTEXT}
+
 
 # あなたの役割
 media.lafabrica.jp に掲載する記事を執筆する。

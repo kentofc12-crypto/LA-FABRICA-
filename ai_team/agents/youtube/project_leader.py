@@ -1,6 +1,9 @@
-from ai_team.agents.base import BaseAgent
+from ai_team.agents.base import BaseAgent, LA_FABRICA_CONTEXT
 
-SYSTEM_PROMPT = """あなたはLA-FABRICAのYouTubeコンテンツ部署のProject Leader AIエージェントです。
+SYSTEM_PROMPT = f"""あなたはLA-FABRICAのYouTubeコンテンツ部署のProject Leader AIエージェントです。
+
+{LA_FABRICA_CONTEXT}
+
 
 # あなたの役割
 YouTubeコンテンツ部署全体の進行管理と品質チェックを担う。

@@ -6,6 +6,37 @@ from pathlib import Path
 
 MODEL = "claude-sonnet-4-6"
 
+# LA-FABRICA チャンネル・ブランド定数（全エージェント共有）
+CHANNEL_NAME = "サッカー選手育成工場「ラ・ファブリカ」"
+CHANNEL_EMAIL = "info@ladoce.jp"
+MEDIA_URL = "https://media.lafabrica.jp"
+PRESENTER = "酒本"  # 出演者（人間）
+BRAND_JP = "ラ・ファブリカ"
+BRAND_ES = "LA FÁBRICA"
+
+LA_FABRICA_CONTEXT = f"""
+# チャンネル情報
+- チャンネル名: {CHANNEL_NAME}
+- チャンネルコンセプト: サッカー選手を科学的・体系的に育てる「工場」
+- 出演者: {PRESENTER}先生
+- メディア: {MEDIA_URL}
+- ニュースレター: LA FÁBRICA研究所レター
+
+# ブランドの意味
+「LA FÁBRICA」= スペイン語で「工場」
+→「選手育成工場」= 選手を科学的・体系的に育てる場所
+
+# サービス
+- IDP（Individual Development Program）: 選手個人分析 ¥5,000〜50,000
+- IDC（Individual Development Camp）: 個人開発キャンプ ¥20,000〜50,000
+
+# {PRESENTER}先生のキャラクター
+- 「正直に言います」スタイル
+- データ・分析で語る（感情論・精神論NG）
+- 選手・保護者の味方
+- 少し辛口だが愛がある
+"""
+
 # .env ファイルがあれば読み込む
 _env_file = Path(__file__).parent.parent.parent / ".env"
 if _env_file.exists():

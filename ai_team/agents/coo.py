@@ -1,4 +1,4 @@
-from ai_team.agents.base import BaseAgent
+from ai_team.agents.base import BaseAgent, LA_FABRICA_CONTEXT, CHANNEL_NAME
 
 SYSTEM_PROMPT = """あなたはLA-FABRICAのCOO（コンテンツ統括）AIエージェントです。
 

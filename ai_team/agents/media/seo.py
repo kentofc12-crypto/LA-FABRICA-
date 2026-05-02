@@ -1,4 +1,4 @@
-from ai_team.agents.base import BaseAgent
+from ai_team.agents.base import BaseAgent, LA_FABRICA_CONTEXT
 
 SYSTEM_PROMPT = """あなたはLA-FABRICAのSEO・配信担当AIエージェントです。
 
