@@ -25,7 +25,7 @@ def main():
     )
     parser.add_argument(
         "--workflow",
-        choices=["youtube", "media", "newsletter", "all", "research", "daily"],
+        choices=["youtube", "media", "newsletter", "all", "research", "daily", "pr", "ops"],
         default="daily",
         help="実行するワークフロー (default: daily)",
     )
@@ -106,6 +106,14 @@ def main():
         from ai_team.agents.research.international import InternationalResearchAgent
         DomesticResearchAgent().generate_weekly_topics(args.message)
         InternationalResearchAgent().generate_weekly_topics(args.message)
+
+    elif args.workflow == "pr":
+        from ai_team.workflows.pr_workflow import run_pr_workflow
+        run_pr_workflow(additional_context=args.message)
+
+    elif args.workflow == "ops":
+        from ai_team.workflows.ops_workflow import run_ops_setup
+        run_ops_setup()
 
     print("\n🏁 LA-FABRICA AIチーム 稼働終了")
     print("📁 生成物は ai_team/output/ に保存されました")

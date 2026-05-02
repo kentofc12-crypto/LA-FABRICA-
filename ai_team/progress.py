@@ -35,6 +35,7 @@ def show_dashboard():
     articles = count_files("articles")
     research = count_files("research")
     newsletters = count_files("newsletters")
+    pr_files = count_files("pr")
 
     script_files = [f for f in scripts if f.name.startswith("2") and "script_" in f.name]
     shorts_files = [f for f in scripts if "shorts_" in f.name]
@@ -52,19 +53,35 @@ def show_dashboard():
     print(f"  │  ✅ Project Leaderレビュー: {len(review_files):>3} 件            │")
     print(f"  │  📰 メディア記事         : {len(article_files):>3} 本            │")
     print(f"  │  📬 研究所レター         : {len(nl_files):>3} 通              │")
+    print(f"  │  📣 PRコンテンツ         : {len(pr_files):>3} 本              │")
     print(f"  │  🔍 リサーチレポート      : {len(research):>3} 件              │")
     print("  └─────────────────────────────────────────────┘")
-
-    # ── 5月スプリント進捗 ────────────────────────────────
-    MAY_YT_LONG_TARGET  = 4
-    MAY_YT_SHORT_TARGET = 16
-    MAY_ARTICLE_TARGET  = 20
-    MAY_NL_TARGET       = 4
 
     def bar(done: int, total: int, width: int = 20) -> str:
         filled = int(width * done / total) if total else 0
         pct = int(100 * done / total) if total else 0
         return f"[{'█' * filled}{'░' * (width - filled)}] {done}/{total} ({pct}%)"
+
+    # ── IDP 1000人 年間目標進捗 ─────────────────────────────
+    YEAR_YT_TARGET      = 200
+    YEAR_ARTICLE_TARGET = 200
+    YEAR_PR_TARGET      = 50
+    YEAR_NL_TARGET      = 48
+
+    print("\n  ┌─────────────────────────────────────────────┐")
+    print("  │  🎯 IDP 1000人 年間コンテンツ目標             │")
+    print("  ├─────────────────────────────────────────────┤")
+    print(f"  │  YouTube台本  {bar(len(script_files), YEAR_YT_TARGET)}  │")
+    print(f"  │  メディア記事 {bar(len(article_files), YEAR_ARTICLE_TARGET)}  │")
+    print(f"  │  研究所レター {bar(len(nl_files), YEAR_NL_TARGET)}  │")
+    print(f"  │  PRコンテンツ {bar(len(pr_files), YEAR_PR_TARGET)}  │")
+    print("  └─────────────────────────────────────────────┘")
+
+    # ── 5月スプリント進捗 ────────────────────────────────
+    MAY_YT_LONG_TARGET  = 20
+    MAY_YT_SHORT_TARGET = 20
+    MAY_ARTICLE_TARGET  = 20
+    MAY_NL_TARGET       = 4
 
     print("\n  ┌─────────────────────────────────────────────┐")
     print("  │  5月スプリント進捗                            │")
@@ -88,22 +105,21 @@ def show_dashboard():
             print(f"  │  {mtime}  {name:<38}  │")
         print("  └─────────────────────────────────────────────┘")
 
-    # ── 次のアクション ───────────────────────────────────
+    # ── コマンド一覧 ─────────────────────────────────────
     print("""
   ┌─────────────────────────────────────────────┐
   │  AIチームを動かすコマンド                     │
   ├─────────────────────────────────────────────┤
-  │  YouTube台本1本作る:                         │
+  │  YouTube台本1本:                             │
   │    python ai_team/main.py --workflow youtube  │
-  │                                             │
-  │  メディア記事2本作る:                         │
+  │  メディア記事2本:                             │
   │    python ai_team/main.py --workflow media    │
-  │                                             │
-  │  研究所レター作る:                            │
-  │    python ai_team/main.py --workflow newsletter│
-  │                                             │
-  │  全部まとめて:                               │
-  │    python ai_team/main.py --workflow all      │
+  │  PRコンテンツ一式:                            │
+  │    python ai_team/main.py --workflow pr       │
+  │  大量生成（全テーマ）:                         │
+  │    python ai_team/batch.py --parallel 2       │
+  │  大量生成（無限ループ）:                       │
+  │    python ai_team/batch.py --parallel 2 --loop│
   └─────────────────────────────────────────────┘
 """)
 
